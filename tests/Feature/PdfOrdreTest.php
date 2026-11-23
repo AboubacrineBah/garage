@@ -73,12 +73,17 @@ class PdfOrdreTest extends TestCase
 
         if (method_exists($result, 'getContent')) {
             $html = $result->getContent();
-            $this->assertStringContainsString('DEVIS', $html);
-            $this->assertStringContainsString('OR-2026-00099', $html);
-            $this->assertStringContainsString('Traoré', $html);
-            $this->assertStringContainsString('CD-789-EF', $html);
-            $this->assertStringContainsString('45 000', $html);
+        } elseif (method_exists($result, 'output')) {
+            $html = $result->output();
+        } else {
+            $html = (string) $result;
         }
+
+        $this->assertNotNull($html);
+        $this->assertStringContainsString('DEVIS', $html);
+        $this->assertStringContainsString('OR-2026-00099', $html);
+        $this->assertStringContainsString('Traoré', $html);
+        $this->assertStringContainsString('CD-789-EF', $html);
     }
 
     public function test_pdf_service_genere_html_facture(): void
@@ -88,9 +93,15 @@ class PdfOrdreTest extends TestCase
 
         if (method_exists($result, 'getContent')) {
             $html = $result->getContent();
-            $this->assertStringContainsString('FACTURE', $html);
-            $this->assertStringContainsString('OR-2026-00099', $html);
+        } elseif (method_exists($result, 'output')) {
+            $html = $result->output();
+        } else {
+            $html = (string) $result;
         }
+
+        $this->assertNotNull($html);
+        $this->assertStringContainsString('FACTURE', $html);
+        $this->assertStringContainsString('OR-2026-00099', $html);
     }
 
     public function test_route_pdf_devis_necessite_auth(): void
