@@ -1,0 +1,8 @@
+# Protection des fichiers sensibles
+RedirectMatch 404 /\.opencode
+<Files "AGENTS.md">
+    Require all denied
+</Files>
+<Files "CLAUDE.md">
+    Require all denied
+</Files>

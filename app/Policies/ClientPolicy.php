@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Policies;
+
+use App\Models\Client;
+use App\Models\User;
+
+class ClientPolicy
+{
+    public function viewAny(User $user): bool
+    {
+        return true;
+    }
+
+    public function view(User $user, Client $client): bool
+    {
+        return true;
+    }
+
+    public function create(User $user): bool
+    {
+        return $user->hasRole('gerant')
+            || $user->hasRole('receptionniste');
+    }
+
+    public function update(User $user, Client $client): bool
+    {
+        return $user->hasRole('gerant')
+            || $user->hasRole('receptionniste')
+            || $user->hasRole('comptable');
+    }
+
+    public function delete(User $user, Client $client): bool
+    {
+        return $user->hasRole('gerant');
+    }
+
+    public function manageCredit(User $user, Client $client): bool
+    {
+        return $user->hasRole('gerant') || $user->hasRole('comptable');
+    }
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0D3B66">
+    <title>Hors ligne – Garage Moderne</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #F8F9FA;
+            color: #1A1A2E;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,.08);
+            max-width: 360px;
+        }
+        h1 { font-size: 1.25rem; color: #0D3B66; margin: 0 0 8px; }
+        p { color: #6C757D; font-size: 0.95rem; margin: 0 0 20px; }
+        button {
+            background: #0D3B66;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        button:active { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div style="font-size: 3rem; margin-bottom: 12px;">📡</div>
+        <h1>Vous êtes hors ligne</h1>
+        <p>
+            La connexion internet est indisponible.<br>
+            Certaines pages consultées récemment restent accessibles.
+        </p>
+        <button onclick="window.location.reload()">Réessayer</button>
+    </div>
+</body>
+</html>
