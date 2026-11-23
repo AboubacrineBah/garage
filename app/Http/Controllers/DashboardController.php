@@ -98,7 +98,7 @@ class DashboardController extends Controller
 
         $stockCritiqueVsOk = [
             'critique' => $stockCritique,
-            'ok'       => PieceDetachee::where('is_active', true)
+            'ok' => PieceDetachee::where('is_active', true)
                 ->whereColumn('stock_actuel', '>', 'stock_minimum')
                 ->count(),
         ];

@@ -5,7 +5,7 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h4 mb-0 fw-bold text-primary-gm">Tableau de bord</h1>
-    <span class="text-muted small">{{ now()->translatedFormat('l d F Y') }}</span>
+    <span class="text-muted small">{{ now()->translatedFormat('l d F Y H:i') }}</span>
 </div>
 
 {{-- KPI Cards --}}
