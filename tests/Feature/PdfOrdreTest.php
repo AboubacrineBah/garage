@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Vehicule;
 use App\Services\PdfService;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
@@ -72,18 +73,18 @@ class PdfOrdreTest extends TestCase
         $this->assertNotNull($result);
 
         if (method_exists($result, 'getContent')) {
+            // Fallback HTML (sans DomPDF)
             $html = $result->getContent();
-        } elseif (method_exists($result, 'output')) {
-            $html = $result->output();
+            $this->assertStringContainsString('DEVIS', $html);
+            $this->assertStringContainsString('OR-2026-00099', $html);
+            $this->assertStringContainsString('Traoré', $html);
+            $this->assertStringContainsString('CD-789-EF', $html);
         } else {
-            $html = (string) $result;
+            // DomPDF installé → PDF binaire
+            $this->assertInstanceOf(PDF::class, $result);
+            $pdf = $result->output();
+            $this->assertStringStartsWith('%PDF', $pdf);
         }
-
-        $this->assertNotNull($html);
-        $this->assertStringContainsString('DEVIS', $html);
-        $this->assertStringContainsString('OR-2026-00099', $html);
-        $this->assertStringContainsString('Traoré', $html);
-        $this->assertStringContainsString('CD-789-EF', $html);
     }
 
     public function test_pdf_service_genere_html_facture(): void
@@ -93,15 +94,13 @@ class PdfOrdreTest extends TestCase
 
         if (method_exists($result, 'getContent')) {
             $html = $result->getContent();
-        } elseif (method_exists($result, 'output')) {
-            $html = $result->output();
+            $this->assertStringContainsString('FACTURE', $html);
+            $this->assertStringContainsString('OR-2026-00099', $html);
         } else {
-            $html = (string) $result;
+            $this->assertInstanceOf(PDF::class, $result);
+            $pdf = $result->output();
+            $this->assertStringStartsWith('%PDF', $pdf);
         }
-
-        $this->assertNotNull($html);
-        $this->assertStringContainsString('FACTURE', $html);
-        $this->assertStringContainsString('OR-2026-00099', $html);
     }
 
     public function test_route_pdf_devis_necessite_auth(): void

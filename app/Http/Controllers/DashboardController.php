@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\OrdreReparation;
 use App\Models\PieceDetachee;
+use App\Models\Vehicule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -81,6 +82,27 @@ class DashboardController extends Controller
             ->groupBy('statut')
             ->pluck('total', 'statut');
 
+        // Données pour graphiques (couleurs & stock)
+        $repartitionCouleurs = Vehicule::select('couleur', DB::raw('count(*) as total'))
+            ->whereNotNull('couleur')
+            ->where('couleur', '!=', '')
+            ->groupBy('couleur')
+            ->orderByDesc('total')
+            ->pluck('total', 'couleur');
+
+        $stockParCategorie = PieceDetachee::select('categorie', DB::raw('count(*) as total'), DB::raw('sum(stock_actuel) as quantite'))
+            ->where('is_active', true)
+            ->groupBy('categorie')
+            ->orderBy('categorie')
+            ->get();
+
+        $stockCritiqueVsOk = [
+            'critique' => $stockCritique,
+            'ok'       => PieceDetachee::where('is_active', true)
+                ->whereColumn('stock_actuel', '>', 'stock_minimum')
+                ->count(),
+        ];
+
         return view('dashboard.index', compact(
             'ordresEnCours',
             'ordresDuJour',
@@ -89,7 +111,10 @@ class DashboardController extends Controller
             'creditsClients',
             'derniersOrdres',
             'repartitionStatuts',
-            'peutVoirFinancier'
+            'peutVoirFinancier',
+            'repartitionCouleurs',
+            'stockParCategorie',
+            'stockCritiqueVsOk'
         ));
     }
 }
