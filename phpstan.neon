@@ -8,3 +8,4 @@ parameters:
     excludePaths:
         - vendor
     tmpDir: storage/phpstan
+    treatPhpDocTypesAsCertain: false

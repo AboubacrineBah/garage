@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int|null $role_id
@@ -13,6 +14,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $email
  * @property string|null $phone
  * @property bool $is_active
+ * @property Carbon|null $last_login_at
  * @property-read Role|null $role
  */
 class User extends Authenticatable
