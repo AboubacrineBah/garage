@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             ParametreSeeder::class,
             AssuranceSeeder::class,
+            FullDemoSeeder::class,
         ]);
     }
 }
